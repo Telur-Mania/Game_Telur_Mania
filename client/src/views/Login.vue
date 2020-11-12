@@ -6,15 +6,14 @@
     </div>
     <div class="center">
       <img src="../assets/logotelur.png" style="margin-bottom: 20px">
-      <form>
+      <form @submit.prevent="login">
         <div class="form-group">
-          <input id="email" class="form-control" type="text" placeholder="Type your nickname..">
+          <input id="email" v-model="username" class="form-control" type="text" placeholder="Type your nickname..">
         </div>
         <button type="submit" class="btn btn-primary form-control">Play</button>
       </form>
       <p style="font-size: 10px; color: rgba(54, 72, 78, 0.95)">Created By : Kelompok 9</p>
     </div>
-
   </div>
 </template>
 
@@ -22,7 +21,19 @@
 // @ is an alias to /src
 
 export default {
-  name: 'Login'
+  name: 'Login',
+    data() {
+        return {
+            username: ''
+        }
+    },
+    methods: {
+      login() {
+        localStorage.setItem('username', this.username)
+        this.$socket.emit('userLogin', this.username)
+        this.$router.push('/dashboard')
+      }
+    }
 }
 </script>
 
