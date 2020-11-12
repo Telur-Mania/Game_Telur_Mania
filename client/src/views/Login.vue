@@ -14,6 +14,9 @@
       </form>
       <p style="font-size: 10px; color: rgba(54, 72, 78, 0.95)">Created By : Kelompok 9</p>
     </div>
+    <audio controls autoplay hidden>
+      <source src="../assets/sounds/101 title.mp3" type="audio/mpeg" />
+    </audio>
   </div>
 </template>
 
