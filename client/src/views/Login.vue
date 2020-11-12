@@ -10,7 +10,7 @@
                           Username
                       </label>
                       <input
-                          v-model="email"
+                          v-model="username"
                           class="form-control text-purple"
                           type="text"
                       >
@@ -29,6 +29,18 @@
 // @ is an alias to /src
 
 export default {
-  name: 'Login'
+  name: 'Login',
+    data() {
+        return {
+            username: ''
+        }
+    },
+    methods: {
+      login() {
+        localStorage.setItem('username', this.username)
+        this.$socket.emit('userLogin', this.username)
+        this.$router.push('/dashboard')
+      }
+    }
 }
 </script>
