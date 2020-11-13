@@ -14,16 +14,16 @@
         loop
       ></video>
     </div>
-    
+    <!-- harusnya dipisah ke komponen lagi biar cardnya sejumlah player yg masuk -->
     <div id="gameboard">
       <div class="center2">
-        <div v-for="(user, i) in onlineUsers" :key="i" class="card" style="background-color: #cff6cf; margin: 10px">
+        <div  v-for="(user, i) in onlineUsers" :key="i"  class="card" style="background-color: #fcf876; margin: 10px">
           <img
-            @click.prevent="button1('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
+            @click="button1(i)"
             class="egg"
             :src="image"
           />
-          <h5>{{ user }}</h5>
+          <h5>{{ user.username }}</h5>
           {{ user.count1 }}
         </div>
       </div>
@@ -37,10 +37,7 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      count1: 100,
-      count2: 100,
-      count3: 100,
-      count4: 100,
+
       image: require("../assets/Egg/tenor-0000.jpg"),
       imageCounter: 0
     };
@@ -48,30 +45,14 @@ export default {
   computed: mapState(["username", "onlineUsers"]),
   sockets: {
     count1(count1Left) {
-      this.count1 = count1Left;
-      // console.log(count1Left)
-    },
-    count2(count2Left) {
-      this.count2 = count2Left;
-      // console.log(count1Left)
-    },
-    count3(count3Left) {
-      this.count3 = count3Left;
-      // console.log(count1Left)
-    },
-    count4(count4Left) {
-      this.count4 = count4Left;
-      // console.log(count1Left)
-    },
-    imageCounter(imageCounter4left) {
-      this.imageCounter = imageCounter4left
-    },
-    image(imageleft) {
-      this.image = imageleft
+      this.onlineUsers[count1Left.index].count1 = count1Left.count1
     }
   },
   methods: {
-    button1(sound) {
+    button1(i, sound) {
+      this.onlineUsers[i].count1--
+      this.$socket.emit("count1", { count1: this.onlineUsers[i].count1, index: i });
+
       if(sound) {
         var audio = new Audio(sound);
         audio.play();
@@ -82,10 +63,15 @@ export default {
       } else {
         this.image = require(`../assets/Egg/tenor-00${this.imageCounter}.jpg`)
       }
-      this.count1--;
-      this.$socket.emit("count1", { count1: this.count1 });
+
+    },
+    imageCounter(imageCounter4left) {
+      this.imageCounter = imageCounter4left
+    },
+    image(imageleft) {
+      this.image = imageleft
     }
-  },
+  }
 };
 </script>
 
