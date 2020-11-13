@@ -40,44 +40,17 @@
       ></video>
     </div>
     <!-- harusnya dipisah ke komponen lagi biar cardnya sejumlah player yg masuk -->
-    <div id="gameboard" v-for="(user, i) in onlineUsers" :key="i">
+    <div id="gameboard">
       <div class="center2">
-        <div class="card" style="background-color: #fcf876; margin: 10px">
+        <div  v-for="(user, i) in onlineUsers" :key="i"  class="card" style="background-color: #fcf876; margin: 10px">
           <img
-            @click="button1"
+            @click="button1(i)"
             class="egg"
             src="../assets/Egg/tenor-0000.jpg"
           />
-          <h5>{{ user }}</h5>
-          {{ count1 }}
+          <h5>{{ user.username }}</h5>
+          {{ user.count1 }}
         </div>
-        <!-- <div
-          @click="button2"
-          class="card"
-          style="background-color: #cee397; margin: 10px"
-        >
-          <img class="egg" src="../assets/Egg/tenor-0000.jpg" />
-          <h5>{{ user }}</h5>
-          {{ count2 }}
-        </div>
-        <div
-          @click="button3"
-          class="card"
-          style="background-color: #8bcdcd; margin: 10px"
-        >
-          <img class="egg" src="../assets/Egg/tenor-0000.jpg" />
-          <h5>{{ user }}</h5>
-          {{ count3 }}
-        </div>
-        <div
-          @click="button4"
-          class="card"
-          style="background-color: #3797a4; margin: 10px"
-        >
-          <img class="egg" src="../assets/Egg/tenor-0000.jpg" />
-          <h5>{{ user }}</h5>
-          {{ count4 }}
-        </div> -->
       </div>
     </div>
   </div>
@@ -89,52 +62,20 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      count1: 100
-      // ,
-      // count2: 100,
-      // count3: 100,
-      // count4: 100,
     };
   },
   computed: mapState(["username", "onlineUsers"]),
   sockets: {
     count1(count1Left) {
-      this.count1 = count1Left;
-      console.log(this.onlineUsers)
-      // console.log(count1Left)
+      this.onlineUsers[count1Left.index].count1 = count1Left.count1
     }
-    // ,
-    // count2(count2Left) {
-    //   this.count2 = count2Left;
-    //   // console.log(count1Left)
-    // },
-    // count3(count3Left) {
-    //   this.count3 = count3Left;
-    //   // console.log(count1Left)
-    // },
-    // count4(count4Left) {
-    //   this.count4 = count4Left;
-    //   // console.log(count1Left)
-    // }
   },
   methods: {
-    button1() {
-      this.count1--;
-      this.$socket.emit("count1", { count1: this.count1 });
+    button1(i) {
+      this.onlineUsers[i].count1--
+      // this.count1--;
+      this.$socket.emit("count1", { count1: this.onlineUsers[i].count1, index: i });
     }
-    // ,
-    // button2() {
-    //   this.count2--;
-    //   this.$socket.emit("count2", { count2: this.count2 });
-    // },
-    // button3() {
-    //   this.count3--;
-    //   this.$socket.emit("count3", { count3: this.count3 });
-    // },
-    // button4() {
-    //   this.count4--;
-    //   this.$socket.emit("count4", { count4: this.count4 });
-    // }
   },
 };
 </script>

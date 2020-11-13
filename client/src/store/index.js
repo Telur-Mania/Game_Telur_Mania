@@ -12,6 +12,7 @@ export default new Vuex.Store({
     SOCKET_userLogin(state, onlineUser) {
       state.username = localStorage.getItem('username', this.username)
       state.onlineUsers = onlineUser
+      console.log(onlineUser)
     }
   },
   actions: {
