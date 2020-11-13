@@ -14,7 +14,7 @@
         loop
       ></video>
     </div>
-    
+
     <div id="gameboard">
       <div class="center2">
         <div v-for="(user, i) in onlineUsers" :key="i" class="card" style="background-color: #cff6cf; margin: 10px">
@@ -38,11 +38,9 @@ export default {
   data() {
     return {
       count1: 100,
-      count2: 100,
-      count3: 100,
-      count4: 100,
       image: require("../assets/Egg/tenor-0000.jpg"),
-      imageCounter: 0
+      imageCounter: 0,
+      imageChanger: 0
     };
   },
   computed: mapState(["username", "onlineUsers"]),
@@ -51,20 +49,11 @@ export default {
       this.count1 = count1Left;
       // console.log(count1Left)
     },
-    count2(count2Left) {
-      this.count2 = count2Left;
-      // console.log(count1Left)
-    },
-    count3(count3Left) {
-      this.count3 = count3Left;
-      // console.log(count1Left)
-    },
-    count4(count4Left) {
-      this.count4 = count4Left;
-      // console.log(count1Left)
-    },
     imageCounter(imageCounter4left) {
       this.imageCounter = imageCounter4left
+    },
+    imageChanger(imageChanger4left) {
+      this.imageChanger = imageChanger4left
     },
     image(imageleft) {
       this.image = imageleft
@@ -77,7 +66,10 @@ export default {
         audio.play();
       }
       this.imageCounter++
-      if(this.imageCounter < 10) {
+      if(this.imageCounter % 3 === 0) {
+        this.imageChanger++
+      }
+      if(this.imageChanger < 10) {
         this.image = require(`../assets/Egg/tenor-000${this.imageCounter}.jpg`)
       } else {
         this.image = require(`../assets/Egg/tenor-00${this.imageCounter}.jpg`)
