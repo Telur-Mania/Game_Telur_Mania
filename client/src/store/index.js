@@ -9,6 +9,8 @@ export default new Vuex.Store({
   state: {
     rooms: [],
     room: {},
+    username: '',
+    onlineUsers: []
   },
   mutations: {
     'SOCKET_FETCH_ROOM' (state, payload) {
@@ -29,7 +31,12 @@ export default new Vuex.Store({
     'SOCKET_UPDATE_ROOM' (state, payload){
       state.room = payload
     }
-
+  },
+  mutations: {
+    SOCKET_userLogin(state, onlineUser) {
+      state.username = localStorage.getItem('username', this.username)
+      state.onlineUsers = onlineUser
+    }
   },
   actions: {
   },
