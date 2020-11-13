@@ -6,7 +6,8 @@
         <h5 class="card-title">Room {{room.name}}</h5>
         <p class="card-text">host {{room.host}}</p>
         
-        <button @click="joinGame" class="btn btn-primary">join</button>
+        <button v-if="this.room.players.length < this.room.limitPlayer" @click="joinGame" class="btn btn-primary">join</button>
+        <button v-else class="btn btn-primary">room penuh</button>
       </div>
     </div>
   </div>
@@ -18,7 +19,10 @@ export default {
   props: ['room'],
   methods: {
       joinGame () {
-
+        localStorage.setItem("myRoom", this.room.name)
+        console.log(this.room)
+        this.$socket.emit('joinGame', {nameRoom: this.room.name, playerJoin: localStorage.getItem('username')})
+        this.$router.push({ name: "Dashboard" });
       }
   }
 };

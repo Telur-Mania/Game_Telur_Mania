@@ -2,7 +2,10 @@
   <div>
     <div id="player">
       <audio controls autoplay hidden>
-        <source src="../assets/sounds/108 theme of prontera.mp3" type="audio/mpeg" />
+        <source
+          src="../assets/sounds/108 theme of prontera.mp3"
+          type="audio/mpeg"
+        />
       </audio>
     </div>
     <div class="bg-video">
@@ -14,16 +17,28 @@
         loop
       ></video>
     </div>
-
     <div id="gameboard">
+      <div>
+        <img src="../assets/logotelur.png" alt="">
+      </div>
       <div class="center2">
-        <div v-for="(user, i) in onlineUsers" :key="i" class="card" style="background-color: #cff6cf; margin: 10px">
+        <div
+          v-for="(user, i) in onlineUsers"
+          :key="i"
+          class="card"
+          style="background-color: #fcf876; margin: 10px"
+        >
           <img
-            @click.prevent="button1('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
+            @click="
+              button1(
+                i,
+                'http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3'
+              )
+            "
             class="egg"
             :src="image"
           />
-          <h5>{{ user }}</h5>
+          <h5>{{ user.username }}</h5>
           {{ user.count1 }}
         </div>
       </div>
@@ -33,50 +48,60 @@
 
 <script>
 import { mapState } from "vuex";
+import Swal from "sweetalert2";
 export default {
   name: "Dashboard",
   data() {
     return {
-      count1: 100,
       image: require("../assets/Egg/tenor-0000.jpg"),
       imageCounter: 0,
-      imageChanger: 0
+      imageChanger: 0,
     };
   },
   computed: mapState(["username", "onlineUsers"]),
   sockets: {
     count1(count1Left) {
-      this.count1 = count1Left;
-      // console.log(count1Left)
+      this.onlineUsers[count1Left.index].count1 = count1Left.count1;
     },
-    imageCounter(imageCounter4left) {
-      this.imageCounter = imageCounter4left
-    },
-    imageChanger(imageChanger4left) {
-      this.imageChanger = imageChanger4left
-    },
-    image(imageleft) {
-      this.image = imageleft
-    }
   },
   methods: {
-    button1(sound) {
-      if(sound) {
+    button1(i, sound) {
+      this.onlineUsers[i].count1--;
+      this.$socket.emit("count1", {
+        count1: this.onlineUsers[i].count1,
+        index: i,
+      });
+
+      if (sound) {
         var audio = new Audio(sound);
         audio.play();
       }
-      this.imageCounter++
-      if(this.imageCounter % 3 === 0) {
-        this.imageChanger++
+      this.imageCounter++;
+      if (this.imageCounter % 3 === 0) {
+        this.imageChanger++;
       }
-      if(this.imageChanger < 10) {
-        this.image = require(`../assets/Egg/tenor-000${this.imageCounter}.jpg`)
+      if (this.imageChanger < 10) {
+        this.image = require(`../assets/Egg/tenor-000${this.imageChanger}.jpg`);
       } else {
-        this.image = require(`../assets/Egg/tenor-00${this.imageCounter}.jpg`)
+        this.image = require(`../assets/Egg/tenor-00${this.imageChanger}.jpg`);
       }
-      this.count1--;
-      this.$socket.emit("count1", { count1: this.count1 });
-    }
+      if (this.imageChanger > 29) {
+        Swal.fire({
+          title: "WINNER!",
+          text: `${this.onlineUsers[i].username}`,
+          imageUrl: "https://cdn.dribbble.com/users/253132/screenshots/1356268/winner.gif",
+          imageWidth: 400,
+          imageHeight: 200,
+          imageAlt: "Custom image",
+        });
+      }
+    },
+    imageCounter(imageCounter4left) {
+      this.imageCounter = imageCounter4left;
+    },
+    image(imageleft) {
+      this.image = imageleft;
+    },
   },
 };
 </script>
