@@ -33,9 +33,6 @@ export default new Vuex.Store({
         }
       })
     },
-    'SOCKET_UPDATE_ROOM' (state, payload){
-      state.room = payload
-    }
   },
   actions: {
   },
