@@ -90,6 +90,7 @@ export default {
                 name: answer[0],
                 limitPlayer: answer[1],
                 host: localStorage.username,
+                players: []
               });
               Swal.fire({
                 title: "All done!",
@@ -121,9 +122,9 @@ export default {
       this.checkAuth()
   },
   mounted() {
-   this.socket.on('FETCH_ROOM', data => {
-      console.log({AAAA: data})
-    })
+  //  this.socket.on('FETCH_ROOM', data => {
+  //     console.log({AAAA: data})
+  //   })
   }
 };
 </script>

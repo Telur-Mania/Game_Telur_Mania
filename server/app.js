@@ -4,7 +4,6 @@ const app = express()
 const PORT = 3000
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
-const GameBoard = require('./gameBoard')
 
 let rooms = []
 let onlineUsers = []
@@ -41,14 +40,35 @@ io.on('connection', (socket) => {
   })
 
   socket.on('createRoom', (data) => {
-    console.log(data);
+    console.log(data, 'data habis create');
     rooms.push(data)
     console.log(rooms)
     io.emit('FETCH_ROOM', rooms)
   })
 
   socket.on('getRooms', () => {
-    console.log('kepanggil');
+    console.log('kepanggil', rooms);
     socket.emit('FETCH_ROOM', rooms)
+  })
+  socket.on('joinGame', (data) => {
+    console.log(data, "dataa join")
+    console.log(rooms, 'ini roommss');
+    rooms.map(room => {
+      console.log(room, "ini roommm")
+      if(room.name === data.nameRoom) {
+        console.log({AAA: data.playerJoin});
+        let pos = room.players.map(function(e) { return e.username; }).indexOf(data.playerJoin);
+        console.log({pos});
+        if(pos === -1) {
+          room.players.push({
+            username: data.playerJoin,
+            count: 100
+          })
+        }
+      }
+      return room
+    })
+    console.log(rooms, "ini roomm");
+    io.emit('FETCH_ROOM', rooms)
   })
 })
