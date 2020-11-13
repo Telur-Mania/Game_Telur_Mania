@@ -10,13 +10,13 @@
                           Username
                       </label>
                       <input
-                          v-model="email"
+                          v-model="username"
                           class="form-control text-purple"
                           type="text"
                       >
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block">Play</button>
+                  <button value="login" type="submit" class="btn btn-primary btn-block">login </button>
               </form>
           </div>
       </div>
@@ -29,6 +29,17 @@
 // @ is an alias to /src
 
 export default {
-  name: 'Login'
-}
+  name: 'Login',
+  data () {
+    return {
+      username: ''
+    }
+  },
+  methods: {
+    login () {
+      localStorage.setItem('username', this.username)
+      this.$router.push({ name: 'Room'})
+    }
+  },
+};
 </script>
