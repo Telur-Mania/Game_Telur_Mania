@@ -62,7 +62,7 @@ export default {
   sockets: {
     count1(count1Left) {
       this.onlineUsers[count1Left.index].count1 = count1Left.count1;
-    },
+    }
   },
   methods: {
     button1(i, sound) {
@@ -97,12 +97,12 @@ export default {
       }
     },
     imageCounter(imageCounter4left) {
-      this.imageCounter = imageCounter4left;
+      this.imageCounter = imageCounter4left
     },
     image(imageleft) {
-      this.image = imageleft;
-    },
-  },
+      this.image = imageleft
+    }
+  }
 };
 </script>
 
