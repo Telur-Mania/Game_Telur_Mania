@@ -35,6 +35,7 @@ export default {
         localStorage.setItem('username', this.username)
         this.$socket.emit('userLogin', this.username)
         this.$router.push('/dashboard')
+        this.$router.push({ name: 'Room'})
       }
     }
 }

@@ -1,29 +1,4 @@
 <template>
-  <!-- <div class="container">
-    <h1>This is an about page</h1>
-    <div
-      v-for="(user, i) in onlineUsers"
-      :key="i"
-    >
-      <h5>{{user}}</h5>
-    </div>
-
-    <div class="row">
-      <div class="col-4">
-        {{count1}}
-        <button @click="button1" class="btn btn-primary" type="button" >dor 1</button>
-      </div>
-      <div class="col-4">
-        {{count2}}
-        <button @click="button2" class="btn btn-warning" type="button">dor 2</button>
-      </div>
-      <div class="col-4">
-        {{count3}}
-        <button @click="button3" class="btn btn-danger" type="button">dor 3</button>
-      </div>
-    </div>
-  </div> -->
-
   <div>
     <div id="player">
       <audio controls autoplay hidden>
@@ -46,7 +21,7 @@
           <img
             @click="button1(i)"
             class="egg"
-            src="../assets/Egg/tenor-0000.jpg"
+            :src="image"
           />
           <h5>{{ user.username }}</h5>
           {{ user.count1 }}
@@ -62,6 +37,9 @@ export default {
   name: "Dashboard",
   data() {
     return {
+
+      image: require("../assets/Egg/tenor-0000.jpg"),
+      imageCounter: 0
     };
   },
   computed: mapState(["username", "onlineUsers"]),
@@ -71,12 +49,29 @@ export default {
     }
   },
   methods: {
-    button1(i) {
+    button1(i, sound) {
       this.onlineUsers[i].count1--
-      // this.count1--;
       this.$socket.emit("count1", { count1: this.onlineUsers[i].count1, index: i });
+
+      if(sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
+      this.imageCounter++
+      if(this.imageCounter < 10) {
+        this.image = require(`../assets/Egg/tenor-000${this.imageCounter}.jpg`)
+      } else {
+        this.image = require(`../assets/Egg/tenor-00${this.imageCounter}.jpg`)
+      }
+
+    },
+    imageCounter(imageCounter4left) {
+      this.imageCounter = imageCounter4left
+    },
+    image(imageleft) {
+      this.image = imageleft
     }
-  },
+  }
 };
 </script>
 
