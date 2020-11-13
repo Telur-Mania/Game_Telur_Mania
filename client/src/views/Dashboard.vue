@@ -1,29 +1,4 @@
 <template>
-  <!-- <div class="container">
-    <h1>This is an about page</h1>
-    <div
-      v-for="(user, i) in onlineUsers"
-      :key="i"
-    >
-      <h5>{{user}}</h5>
-    </div>
-
-    <div class="row">
-      <div class="col-4">
-        {{count1}}
-        <button @click="button1" class="btn btn-primary" type="button" >dor 1</button>
-      </div>
-      <div class="col-4">
-        {{count2}}
-        <button @click="button2" class="btn btn-warning" type="button">dor 2</button>
-      </div>
-      <div class="col-4">
-        {{count3}}
-        <button @click="button3" class="btn btn-danger" type="button">dor 3</button>
-      </div>
-    </div>
-  </div> -->
-
   <div>
     <div id="player">
       <audio controls autoplay hidden>
@@ -39,44 +14,17 @@
         loop
       ></video>
     </div>
-    <!-- harusnya dipisah ke komponen lagi biar cardnya sejumlah player yg masuk -->
-    <div id="gameboard" v-for="(user, i) in onlineUsers" :key="i">
+    
+    <div id="gameboard">
       <div class="center2">
-        <div class="card" style="background-color: #fcf876; margin: 10px">
+        <div v-for="(user, i) in onlineUsers" :key="i" class="card" style="background-color: #cff6cf; margin: 10px">
           <img
             @click.prevent="button1('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
             class="egg"
-            src="../assets/Egg/tenor-0000.jpg"
+            :src="image"
           />
           <h5>{{ user }}</h5>
-          {{ count1 }}
-        </div>
-        <div
-          @click.prevent="button2('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
-          class="card"
-          style="background-color: #cee397; margin: 10px"
-        >
-          <img class="egg" src="../assets/Egg/tenor-0000.jpg" />
-          <h5>{{ user }}</h5>
-          {{ count2 }}
-        </div>
-        <div
-          @click.prevent="button3('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
-          class="card"
-          style="background-color: #8bcdcd; margin: 10px"
-        >
-          <img class="egg" src="../assets/Egg/tenor-0000.jpg" />
-          <h5>{{ user }}</h5>
-          {{ count3 }}
-        </div>
-        <div
-          @click.prevent="button4('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
-          class="card"
-          style="background-color: #3797a4; margin: 10px"
-        >
-          <img class="egg" src="../assets/Egg/tenor-0000.jpg" />
-          <h5>{{ user }}</h5>
-          {{ count4 }}
+          {{ user.count1 }}
         </div>
       </div>
     </div>
@@ -93,6 +41,8 @@ export default {
       count2: 100,
       count3: 100,
       count4: 100,
+      image: require("../assets/Egg/tenor-0000.jpg"),
+      imageCounter: 0
     };
   },
   computed: mapState(["username", "onlineUsers"]),
@@ -113,6 +63,12 @@ export default {
       this.count4 = count4Left;
       // console.log(count1Left)
     },
+    imageCounter(imageCounter4left) {
+      this.imageCounter = imageCounter4left
+    },
+    image(imageleft) {
+      this.image = imageleft
+    }
   },
   methods: {
     button1(sound) {
@@ -120,33 +76,15 @@ export default {
         var audio = new Audio(sound);
         audio.play();
       }
+      this.imageCounter++
+      if(this.imageCounter < 10) {
+        this.image = require(`../assets/Egg/tenor-000${this.imageCounter}.jpg`)
+      } else {
+        this.image = require(`../assets/Egg/tenor-00${this.imageCounter}.jpg`)
+      }
       this.count1--;
       this.$socket.emit("count1", { count1: this.count1 });
-    },
-    button2(sound) {
-      if(sound) {
-        var audio = new Audio(sound);
-        audio.play();
-      }
-      this.count2--;
-      this.$socket.emit("count2", { count2: this.count2 });
-    },
-    button3(sound) {
-      if(sound) {
-        var audio = new Audio(sound);
-        audio.play();
-      }
-      this.count3--;
-      this.$socket.emit("count3", { count3: this.count3 });
-    },
-    button4(sound) {
-      if(sound) {
-        var audio = new Audio(sound);
-        audio.play();
-      }
-      this.count4--;
-      this.$socket.emit("count4", { count4: this.count4 });
-    },
+    }
   },
 };
 </script>
