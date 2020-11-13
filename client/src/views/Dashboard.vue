@@ -18,12 +18,10 @@
       ></video>
     </div>
     <div id="gameboard">
-      <div>
-        <img src="../assets/logotelur.png" alt="">
-      </div>
+      <!-- {{myrooms}} -->
       <div class="center2">
         <div
-          v-for="(user, i) in onlineUsers"
+          v-for="(user, i) in myrooms"
           :key="i"
           class="card"
           style="background-color: #fcf876; margin: 10px"
@@ -58,7 +56,13 @@ export default {
       imageChanger: 0,
     };
   },
-  computed: mapState(["username", "onlineUsers"]),
+  computed: {
+    myrooms: function () {
+      const room = this.$store.state.rooms.filter(el => el.name === localStorage.getItem('myRoom'))
+      return room[0].players
+    },
+    // ...mapState(["username", "onlineUsers", "rooms"]),
+  },
   sockets: {
     count1(count1Left) {
       this.onlineUsers[count1Left.index].count1 = count1Left.count1;
@@ -97,12 +101,12 @@ export default {
       }
     },
     imageCounter(imageCounter4left) {
-      this.imageCounter = imageCounter4left
+      this.imageCounter = imageCounter4left;
     },
     image(imageleft) {
-      this.image = imageleft
-    }
-  }
+      this.image = imageleft;
+    },
+  },
 };
 </script>
 
