@@ -44,7 +44,7 @@
       <div class="center2">
         <div class="card" style="background-color: #fcf876; margin: 10px">
           <img
-            @click="button1"
+            @click.prevent="button1('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
             class="egg"
             src="../assets/Egg/tenor-0000.jpg"
           />
@@ -52,7 +52,7 @@
           {{ count1 }}
         </div>
         <div
-          @click="button2"
+          @click.prevent="button2('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
           class="card"
           style="background-color: #cee397; margin: 10px"
         >
@@ -61,7 +61,7 @@
           {{ count2 }}
         </div>
         <div
-          @click="button3"
+          @click.prevent="button3('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
           class="card"
           style="background-color: #8bcdcd; margin: 10px"
         >
@@ -70,7 +70,7 @@
           {{ count3 }}
         </div>
         <div
-          @click="button4"
+          @click.prevent="button4('http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3')"
           class="card"
           style="background-color: #3797a4; margin: 10px"
         >
@@ -115,19 +115,35 @@ export default {
     },
   },
   methods: {
-    button1() {
+    button1(sound) {
+      if(sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
       this.count1--;
       this.$socket.emit("count1", { count1: this.count1 });
     },
-    button2() {
+    button2(sound) {
+      if(sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
       this.count2--;
       this.$socket.emit("count2", { count2: this.count2 });
     },
-    button3() {
+    button3(sound) {
+      if(sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
       this.count3--;
       this.$socket.emit("count3", { count3: this.count3 });
     },
-    button4() {
+    button4(sound) {
+      if(sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
       this.count4--;
       this.$socket.emit("count4", { count4: this.count4 });
     },
