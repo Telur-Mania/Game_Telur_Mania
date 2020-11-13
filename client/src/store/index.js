@@ -13,7 +13,12 @@ export default new Vuex.Store({
     onlineUsers: []
   },
   mutations: {
+    SOCKET_userLogin(state, onlineUser) {
+      state.username = localStorage.getItem('username', this.username)
+      state.onlineUsers = onlineUser
+    },
     'SOCKET_FETCH_ROOM' (state, payload) {
+      console.log(payload);
       state.rooms = payload
     },
     'SOCKET_ERROR_JOIN' (state, payload) {
@@ -30,12 +35,6 @@ export default new Vuex.Store({
     },
     'SOCKET_UPDATE_ROOM' (state, payload){
       state.room = payload
-    }
-  },
-  mutations: {
-    SOCKET_userLogin(state, onlineUser) {
-      state.username = localStorage.getItem('username', this.username)
-      state.onlineUsers = onlineUser
     }
   },
   actions: {
