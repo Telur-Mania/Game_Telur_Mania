@@ -1,5 +1,14 @@
 <template>
-  <div class="container">
+  <div id="scroll" class="container">
+    <div class="bg-video">
+      <video
+        src="../assets/Flying-Birds.mp4"
+        class="bg-video-content"
+        autoplay
+        muted
+        loop
+      ></video>
+    </div>
     <div class="row" style="min-height: 100vh">
       <div class="col-md-5 d-one d-sm-block">
         <div class="d-flex align-items-center" style="height: 100%">
@@ -15,7 +24,7 @@
       <div class="col-md-7">
         <h5 class="mt-3">
           <b>list Room</b>
-          <button class="btn-warning btn-sm float-right" @click="createRoom">
+          <button class="btn-primary btn-sm float-right" @click="createRoom">
             Create Room
           </button>
         </h5>
@@ -130,4 +139,24 @@ export default {
 </script>
 
 <style>
+#scroll {
+  width: 100vm;
+  height: 100vh;
+  overflow: auto;
+}
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  opacity: 0.6;
+}
+
+.bg-video-content {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
 </style>

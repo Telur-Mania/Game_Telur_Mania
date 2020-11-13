@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }))
 
 let rooms = []
 let onlineUsers = []
-let count1 = 100
+let count1 = 88
 
 io.on('connection', (socket) => {
   console.log('a user connected')

@@ -7,7 +7,7 @@
         <p class="card-text">host {{room.host}}</p>
         
         <button v-if="this.room.players.length < this.room.limitPlayer" @click="joinGame" class="btn btn-primary">join</button>
-        <button v-else class="btn btn-danger">room penuh</button>
+        <button v-else class="btn btn-primary">room penuh</button>
       </div>
     </div>
   </div>

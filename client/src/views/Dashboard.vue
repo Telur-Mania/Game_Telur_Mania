@@ -17,7 +17,6 @@
         loop
       ></video>
     </div>
-    <!-- harusnya dipisah ke komponen lagi biar cardnya sejumlah player yg masuk -->
     <div id="gameboard">
       <!-- {{myrooms}} -->
       <div class="center2">
@@ -27,7 +26,16 @@
           class="card"
           style="background-color: #fcf876; margin: 10px"
         >
-          <img @click="button1(i)" class="egg" :src="image" />
+          <img
+            @click="
+              button1(
+                i,
+                'http://soundbible.com/mp3/Realistic_Punch-Mark_DiAngelo-1609462330.mp3'
+              )
+            "
+            class="egg"
+            :src="image"
+          />
           <h5>{{ user.username }}</h5>
           {{ user.count1 }}
         </div>
@@ -38,23 +46,19 @@
 
 <script>
 import { mapState } from "vuex";
+import Swal from "sweetalert2";
 export default {
   name: "Dashboard",
   data() {
     return {
       image: require("../assets/Egg/tenor-0000.jpg"),
       imageCounter: 0,
+      imageChanger: 0,
     };
   },
-  // computed: {
-  //   rooms() {
-  //     return this.$store.state.rooms;
-  //   },
-  // },
   computed: {
     myrooms: function () {
       const room = this.$store.state.rooms.filter(el => el.name === localStorage.getItem('myRoom'))
-      console.log({room});
       return room[0].players
     },
     // ...mapState(["username", "onlineUsers", "rooms"]),
@@ -62,7 +66,7 @@ export default {
   sockets: {
     count1(count1Left) {
       this.onlineUsers[count1Left.index].count1 = count1Left.count1;
-    },
+    }
   },
   methods: {
     button1(i, sound) {
@@ -77,10 +81,23 @@ export default {
         audio.play();
       }
       this.imageCounter++;
-      if (this.imageCounter < 10) {
-        this.image = require(`../assets/Egg/tenor-000${this.imageCounter}.jpg`);
+      if (this.imageCounter % 3 === 0) {
+        this.imageChanger++;
+      }
+      if (this.imageChanger < 10) {
+        this.image = require(`../assets/Egg/tenor-000${this.imageChanger}.jpg`);
       } else {
-        this.image = require(`../assets/Egg/tenor-00${this.imageCounter}.jpg`);
+        this.image = require(`../assets/Egg/tenor-00${this.imageChanger}.jpg`);
+      }
+      if (this.imageChanger > 29) {
+        Swal.fire({
+          title: "WINNER!",
+          text: `${this.onlineUsers[i].username}`,
+          imageUrl: "https://cdn.dribbble.com/users/253132/screenshots/1356268/winner.gif",
+          imageWidth: 400,
+          imageHeight: 200,
+          imageAlt: "Custom image",
+        });
       }
     },
     imageCounter(imageCounter4left) {
