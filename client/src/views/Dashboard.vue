@@ -2,7 +2,10 @@
   <div>
     <div id="player">
       <audio controls autoplay hidden>
-        <source src="../assets/sounds/108 theme of prontera.mp3" type="audio/mpeg" />
+        <source
+          src="../assets/sounds/108 theme of prontera.mp3"
+          type="audio/mpeg"
+        />
       </audio>
     </div>
     <div class="bg-video">
@@ -16,13 +19,15 @@
     </div>
     <!-- harusnya dipisah ke komponen lagi biar cardnya sejumlah player yg masuk -->
     <div id="gameboard">
+      <!-- {{myrooms}} -->
       <div class="center2">
-        <div  v-for="(user, i) in onlineUsers" :key="i"  class="card" style="background-color: #fcf876; margin: 10px">
-          <img
-            @click="button1(i)"
-            class="egg"
-            :src="image"
-          />
+        <div
+          v-for="(user, i) in myrooms"
+          :key="i"
+          class="card"
+          style="background-color: #fcf876; margin: 10px"
+        >
+          <img @click="button1(i)" class="egg" :src="image" />
           <h5>{{ user.username }}</h5>
           {{ user.count1 }}
         </div>
@@ -37,41 +42,54 @@ export default {
   name: "Dashboard",
   data() {
     return {
-
       image: require("../assets/Egg/tenor-0000.jpg"),
-      imageCounter: 0
+      imageCounter: 0,
     };
   },
-  computed: mapState(["username", "onlineUsers"]),
+  // computed: {
+  //   rooms() {
+  //     return this.$store.state.rooms;
+  //   },
+  // },
+  computed: {
+    myrooms: function () {
+      const room = this.$store.state.rooms.filter(el => el.name === localStorage.getItem('myRoom'))
+      console.log({room});
+      return room[0].players
+    },
+    // ...mapState(["username", "onlineUsers", "rooms"]),
+  },
   sockets: {
     count1(count1Left) {
-      this.onlineUsers[count1Left.index].count1 = count1Left.count1
-    }
+      this.onlineUsers[count1Left.index].count1 = count1Left.count1;
+    },
   },
   methods: {
     button1(i, sound) {
-      this.onlineUsers[i].count1--
-      this.$socket.emit("count1", { count1: this.onlineUsers[i].count1, index: i });
+      this.onlineUsers[i].count1--;
+      this.$socket.emit("count1", {
+        count1: this.onlineUsers[i].count1,
+        index: i,
+      });
 
-      if(sound) {
+      if (sound) {
         var audio = new Audio(sound);
         audio.play();
       }
-      this.imageCounter++
-      if(this.imageCounter < 10) {
-        this.image = require(`../assets/Egg/tenor-000${this.imageCounter}.jpg`)
+      this.imageCounter++;
+      if (this.imageCounter < 10) {
+        this.image = require(`../assets/Egg/tenor-000${this.imageCounter}.jpg`);
       } else {
-        this.image = require(`../assets/Egg/tenor-00${this.imageCounter}.jpg`)
+        this.image = require(`../assets/Egg/tenor-00${this.imageCounter}.jpg`);
       }
-
     },
     imageCounter(imageCounter4left) {
-      this.imageCounter = imageCounter4left
+      this.imageCounter = imageCounter4left;
     },
     image(imageleft) {
-      this.image = imageleft
-    }
-  }
+      this.image = imageleft;
+    },
+  },
 };
 </script>
 
