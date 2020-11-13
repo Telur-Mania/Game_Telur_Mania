@@ -29,14 +29,11 @@
 
       socket.on('createRoom', (data) => {
         console.log(data);
-        let startGame = new GameBoard(data.name, data.limitPlayer)
-
-        startGame.host = data.host
-
-        rooms.push(startGame)
-        console.log({ rooms });
+        rooms.push(data)
+        console.log(rooms)
         io.emit('FETCH_ROOM', rooms)
       })
+
 
       socket.on('getRooms', () => {
         console.log('kepanggil');
@@ -91,4 +88,6 @@
 
 http.listen(PORT, () => {
   console.log(`Telor Pecah app listening at http://localhost:${PORT}`)
+
+
 })

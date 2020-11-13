@@ -46,18 +46,18 @@ export default {
       // socket: io('http://localhost:3000')
     }
   },
-  watch: {
-    "$store.state.room"() {
-      if (this.$store.state.room.id) {
-        this.$router.push({
-          name: "Game",
-          params: {
-            id: this.$store.state.room.id,
-          },
-        });
-      }
-    },
-  },
+  // watch: {
+  //   "$store.state.room"() {
+  //     if (this.$store.state.room.id) {
+  //       this.$router.push({
+  //         name: "Game",
+  //         params: {
+  //           id: this.$store.state.room.id,
+  //         },
+  //       });
+  //     }
+  //   },
+  // },
   computed: {
     rooms() {
       return this.$store.state.rooms;
