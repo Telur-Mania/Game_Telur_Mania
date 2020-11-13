@@ -51,7 +51,7 @@
           <h5>{{ user }}</h5>
           {{ count1 }}
         </div>
-        <div
+        <!-- <div
           @click="button2"
           class="card"
           style="background-color: #cee397; margin: 10px"
@@ -77,7 +77,7 @@
           <img class="egg" src="../assets/Egg/tenor-0000.jpg" />
           <h5>{{ user }}</h5>
           {{ count4 }}
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -89,48 +89,52 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      count1: 100,
-      count2: 100,
-      count3: 100,
-      count4: 100,
+      count1: 100
+      // ,
+      // count2: 100,
+      // count3: 100,
+      // count4: 100,
     };
   },
   computed: mapState(["username", "onlineUsers"]),
   sockets: {
     count1(count1Left) {
       this.count1 = count1Left;
+      console.log(this.onlineUsers)
       // console.log(count1Left)
-    },
-    count2(count2Left) {
-      this.count2 = count2Left;
-      // console.log(count1Left)
-    },
-    count3(count3Left) {
-      this.count3 = count3Left;
-      // console.log(count1Left)
-    },
-    count4(count4Left) {
-      this.count4 = count4Left;
-      // console.log(count1Left)
-    },
+    }
+    // ,
+    // count2(count2Left) {
+    //   this.count2 = count2Left;
+    //   // console.log(count1Left)
+    // },
+    // count3(count3Left) {
+    //   this.count3 = count3Left;
+    //   // console.log(count1Left)
+    // },
+    // count4(count4Left) {
+    //   this.count4 = count4Left;
+    //   // console.log(count1Left)
+    // }
   },
   methods: {
     button1() {
       this.count1--;
       this.$socket.emit("count1", { count1: this.count1 });
-    },
-    button2() {
-      this.count2--;
-      this.$socket.emit("count2", { count2: this.count2 });
-    },
-    button3() {
-      this.count3--;
-      this.$socket.emit("count3", { count3: this.count3 });
-    },
-    button4() {
-      this.count4--;
-      this.$socket.emit("count4", { count4: this.count4 });
-    },
+    }
+    // ,
+    // button2() {
+    //   this.count2--;
+    //   this.$socket.emit("count2", { count2: this.count2 });
+    // },
+    // button3() {
+    //   this.count3--;
+    //   this.$socket.emit("count3", { count3: this.count3 });
+    // },
+    // button4() {
+    //   this.count4--;
+    //   this.$socket.emit("count4", { count4: this.count4 });
+    // }
   },
 };
 </script>

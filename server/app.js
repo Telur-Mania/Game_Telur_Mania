@@ -11,7 +11,7 @@
   app.use(express.urlencoded({ extended: false }))
 
   let onlineUsers = []
-  let count1;
+  let count1 = []
   let count2;
   let count3;
 
@@ -24,7 +24,8 @@
       } )
       socket.on('count1', (objCount1) => {
         console.log(objCount1, 'ini username count1')
-        count1 = objCount1.count1
+        // count1 = objCount1.count1
+
         io.emit('count1', count1)
       } )
       socket.on('count2', (objCount2) => {
